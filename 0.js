@@ -935,7 +935,7 @@ var WasmWrapper = /*#__PURE__*/function () {
                   return callback1();
                 case 7:
                   _context.t1 = _context.sent;
-                  _context.t0.all.call(_context.t0, _context.t1).then(function () {
+                  return _context.abrupt("return", _context.t0.all.call(_context.t0, _context.t1).then(function () {
                     // LOG('ThreadPromiseBunch end __heap_pointer', wasm_wrapper.Size(wasm_wrapper.exports.__getHeapPointer__())[0])
 
                     wasm_wrapper.resetHeapPointer();
@@ -946,7 +946,7 @@ var WasmWrapper = /*#__PURE__*/function () {
                     } else {
                       _this2.running_count = 0;
                     }
-                  });
+                  }));
                 case 9:
                 case "end":
                   return _context.stop();
