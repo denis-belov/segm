@@ -11545,6 +11545,15 @@ onmessage = function onmessage(message) {
   if (message.data.image_data) {
     image_data.set(message.data.image_data);
   }
+
+  // const sp = image_data.getSpacing();
+
+  // LOG('sop', sp)
+
+  // image_data.setSpacing([ sp[0], sp[0], 1 ]);
+
+  // LOG('image_data.getSpacing()', image_data.getSpacing())
+
   image_data.getPointData().setScalars(scalars);
   var marching_cubes = _kitware_vtk_js_Filters_General_ImageMarchingCubes__WEBPACK_IMPORTED_MODULE_2__["default"].newInstance();
   if (message.data.marching_cubes) {

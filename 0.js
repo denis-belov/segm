@@ -367,7 +367,6 @@ var Thread = /*#__PURE__*/function () {
     this.wasm_wrapper = wasm_wrapper;
     this.stack_addr = this.wasm_wrapper.exports.RDTY_WASM_WRAPPER_malloc(this.wasm_wrapper.options.thread_stack_size);
     this.stack_pointer = this.stack_addr + this.wasm_wrapper.options.thread_stack_size;
-    console.log(this.stack_addr, this.stack_pointer);
     this.worker = new _thread3_1_worker_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
   }
   _createClass(Thread, [{
@@ -573,8 +572,7 @@ var WasmWrapper = /*#__PURE__*/function () {
     var wasm_wrapper = this;
     this.options = Object.assign({
       // 1024 b * 1024 b == 1048576 b == 1 mb
-      // thread_stack_size: 0x0100000,
-      thread_stack_size: 1048576 * 4
+      thread_stack_size: 0x0100000
     }, options);
 
     // TODO: reorder.
@@ -777,12 +775,6 @@ var WasmWrapper = /*#__PURE__*/function () {
           var position = Math.log2(_size);
           var addr = 0;
           malloc_lock();
-          if (!self.window) {
-            // LOG('malloc start', this.exports.getStackPointer())
-            // this.Size(this.exports.malloc_arr, 1024 * 1024)[this.Size(this.exports.malloc_arr_index)[0]++] = 1;
-          } else if (size > 1024 * 32) {
-            console.log('malloc start', _this.exports.getStackPointer(), size, _size);
-          }
           // this.__lock__(this.exports.__getAtomicMalloc__());
           // if (this.__id__) this.Size(this.exports.__malloc_test, 2)[0] = this.__id__;
 
@@ -804,10 +796,6 @@ var WasmWrapper = /*#__PURE__*/function () {
 
           // if (this.__id__) this.Size(this.exports.__malloc_test, 2)[1] = this.__id__;
           // if (this.__id__ && this.Size(this.exports.__malloc_test, 2)[0] !== this.Size(this.exports.__malloc_test, 2)[1]) LOG(...this.Size(this.exports.__malloc_test, 2))
-          if (!self.window) {
-            // LOG('malloc end', this.exports.getStackPointer())
-            // this.Size(this.exports.malloc_arr, 1024 * 1024)[this.Size(this.exports.malloc_arr_index)[0]++] = 1;
-          }
           malloc_unlock();
           // this.__unlock__(this.exports.__getAtomicMalloc__());
 
@@ -816,10 +804,6 @@ var WasmWrapper = /*#__PURE__*/function () {
         free: function free(addr) {
           var size = _this.Size(addr - 16)[0];
           malloc_lock();
-          if (!self.window) {
-            // LOG('free start', this.exports.getStackPointer())
-            // this.Size(this.exports.malloc_arr, 1024 * 1024)[this.Size(this.exports.malloc_arr_index)[0]++] = 2;
-          }
           // this.__lock__(this.exports.__getAtomicMalloc__());
           // if (this.__id__) this.Size(this.exports.__malloc_test, 2)[0] = this.__id__;
 
@@ -834,10 +818,6 @@ var WasmWrapper = /*#__PURE__*/function () {
 
           // if (this.__id__) this.Size(this.exports.__malloc_test, 2)[1] = this.__id__;
           // if (this.__id__ && this.Size(this.exports.__malloc_test, 2)[0] !== this.Size(this.exports.__malloc_test, 2)[1]) LOG(...this.Size(this.exports.__malloc_test, 2))
-          if (!self.window) {
-            // LOG('free end', this.exports.getStackPointer())
-            // this.Size(this.exports.malloc_arr, 1024 * 1024)[this.Size(this.exports.malloc_arr_index)[0]++] = 2;
-          }
           malloc_unlock();
           // this.__unlock__(this.exports.__getAtomicMalloc__());
         }
@@ -1352,7 +1332,7 @@ var WasmWrapper = /*#__PURE__*/function () {
 
               // DEBUG_LABEL_LOG();
               if (!(code_type === __CODE_TYPE_BYTECODE__)) {
-                _context3.next = 29;
+                _context3.next = 28;
                 break;
               }
               _context3.next = 8;
@@ -1450,20 +1430,15 @@ var WasmWrapper = /*#__PURE__*/function () {
                   if (debug) {
                     DEBUG_LOG("Missed ".concat(_import.module, " import:"), _import.name);
                   }
-
-                  // import_modules[_import.module][_import.name] = IDLE_FUNCTION;
-                  import_modules[_import.module][_import.name] = function (x) {
-                    MISSED_IMPORT_FUNCTION_LOG("Missed import function called: module \"".concat(_import.module, "\", function \"").concat(_import.name, "\""), x);
-                    throw new Error('QWE');
-                  };
+                  import_modules[_import.module][_import.name] = IDLE_FUNCTION;
+                  // import_modules[_import.module][_import.name] = () => { MISSED_IMPORT_FUNCTION_LOG(`Missed import function called: module "${ _import.module }", function "${ _import.name }"`); };
                 }
               });
-              console.log('import_modules', import_modules);
-              _context3.next = 23;
+              _context3.next = 22;
               return WebAssembly.instantiate
               // await WebAssembly.instantiateStreaming
               (wasm_module, import_modules);
-            case 23:
+            case 22:
               wasm_module_instance = _context3.sent;
               // Exported memory
               if (!this.memory) {
@@ -1479,9 +1454,9 @@ var WasmWrapper = /*#__PURE__*/function () {
               // this.instance = wasm_module_instance;
 
               this.exports = wasm_module_instance.exports;
-              _context3.next = 33;
+              _context3.next = 32;
               break;
-            case 29:
+            case 28:
               /**
                * Binary search for a max value without knowing the exact value, only that it
                * can be under or over It dose not test every number but instead looks for
@@ -1533,13 +1508,10 @@ var WasmWrapper = /*#__PURE__*/function () {
                 memory: this.memory
               }, this.custom_functions);
               this.exports = code(imports_env);
-            case 33:
+            case 32:
               if (stack_pointer !== undefined) {
                 this.exports.setStackPointer(stack_pointer);
-
-                // LOG('LKJKJKJ', this.exports.getStackPointer())
               }
-
               if (doCommons) {
                 buffer = this.memory.buffer;
                 this.doCommons(buffer);
@@ -1566,13 +1538,13 @@ var WasmWrapper = /*#__PURE__*/function () {
               }
 
               // This is to be able to call .then()
-              _context3.next = 41;
+              _context3.next = 40;
               return new Promise(function (resolve) {
                 return resolve(_this4);
               });
-            case 41:
+            case 40:
               return _context3.abrupt("return", _context3.sent);
-            case 42:
+            case 41:
             case "end":
               return _context3.stop();
           }
