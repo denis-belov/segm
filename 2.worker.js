@@ -1,1 +1,1 @@
-self.webpackChunk([2],{8:function(_,i,n){"use strict";var c,e=n.w[_.i];for(c in n.r(i),e)"__webpack_init__"!=c&&(i[c]=e[c]);e.__webpack_init__()}});
+self.webpackChunk([2],{44:function(_,i,n){"use strict";var c,e=n.w[_.i];for(c in n.r(i),e)"__webpack_init__"!=c&&(i[c]=e[c]);e.__webpack_init__()}});
