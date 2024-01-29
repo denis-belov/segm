@@ -1,1 +1,25 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[6],{803:function(i,_,n){"use strict";var w,p=n.w[i.i];for(w in n.r(_),p)"__webpack_init__"!=w&&(_[w]=p[w]);p.__webpack_init__()}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[6],{
+
+/***/ "../../renderity/wasm-wrapper/src/test-simd/build/test.wasm":
+/*!******************************************************************************!*\
+  !*** /Users/Denis/reps/renderity/wasm-wrapper/src/test-simd/build/test.wasm ***!
+  \******************************************************************************/
+/*! no exports provided */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Instantiate WebAssembly module
+var wasmExports = __webpack_require__.w[module.i];
+__webpack_require__.r(exports);
+// export exports from WebAssembly module
+for(var name in wasmExports) if(name != "__webpack_init__") exports[name] = wasmExports[name];
+// exec imports from WebAssembly module (for esm order)
+
+
+// exec wasm module
+wasmExports["__webpack_init__"]()
+
+/***/ })
+
+}]);
+//# sourceMappingURL=6.js.map
