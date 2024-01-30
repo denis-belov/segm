@@ -863,8 +863,6 @@ __webpack_require__.r(__webpack_exports__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw new Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw new Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
@@ -876,6 +874,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 // https://webassembly.org
 // https://webassembly.github.io/spec
 // https://github.com/WebAssembly
@@ -924,19 +928,31 @@ var __CODE_TYPE_FUNCTION__ = 1;
 var IDLE_FUNCTION = function IDLE_FUNCTION() {
   return 0;
 };
-var DEBUG_LOG = console.log.bind(console);
-// const DEBUG_LOG = (...content) => console.log(...content.map(elm => `%c${ elm }`), 'background-color: #00858A; padding: 2px;');
-var ERROR_LOG = function ERROR_LOG(content) {
-  return console.log("%c".concat(content), 'background-color: red; padding: 2px;');
+var ERROR_LOG = function ERROR_LOG() {
+  var _console;
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+  return (_console = console).log.apply(_console, ["%c".concat(content), 'background-color: red; padding: 2px;'].concat(_toConsumableArray(args.slice(1))));
 };
-var MISSED_IMPORT_FUNCTION_LOG = ERROR_LOG;
+var WARN_LOG = function WARN_LOG() {
+  var _console2;
+  for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    args[_key2] = arguments[_key2];
+  }
+  return (_console2 = console).log.apply(_console2, ["%c".concat(args[0]), 'background-color: #8B8000; padding: 2px;'].concat(_toConsumableArray(args.slice(1))));
+};
 var DEBUG_INFO = [];
-var DEBUG_INFO_PUSH = function DEBUG_INFO_PUSH(content) {
-  return DEBUG_INFO.push(content);
+var DEBUG_INFO_PUSH = function DEBUG_INFO_PUSH() {
+  for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+    args[_key3] = arguments[_key3];
+  }
+  return DEBUG_INFO.push(args);
 };
 var DEBUG_LABEL_LOG = function DEBUG_LABEL_LOG(thread_id) {
   DEBUG_INFO.forEach(function (label) {
-    return console.log("%c".concat(thread_id, ": ").concat(label), 'background-color: #00858A; padding: 2px;');
+    var _console3;
+    return (_console3 = console).log.apply(_console3, ["%c".concat(thread_id, ": ").concat(label[0]), 'background-color: #00858A; padding: 2px;'].concat(_toConsumableArray(label.slice(1))));
   });
   DEBUG_INFO.length = 0;
 };
@@ -1106,15 +1122,15 @@ var WasmWrapper = /*#__PURE__*/function () {
     key: "async",
     value: function () {
       var _async = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(_function) {
-        var _len,
+        var _len4,
           args,
-          _key,
+          _key4,
           _args3 = arguments;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              for (_len = _args3.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                args[_key - 1] = _args3[_key];
+              for (_len4 = _args3.length, args = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+                args[_key4 - 1] = _args3[_key4];
               }
               this.async_args = args;
               (this.async_func = _function).apply(void 0, args);
@@ -1174,7 +1190,7 @@ var WasmWrapper = /*#__PURE__*/function () {
                 }
                 if (!imports_aggregate[wasm_module_import.module][wasm_module_import.name]) {
                   if (debug) {
-                    DEBUG_LOG("Missed ".concat(wasm_module_import.module, " import:"), wasm_module_import.name);
+                    WARN_LOG("Missed ".concat(wasm_module_import.module, " import:"), wasm_module_import.name);
                   }
                   imports_aggregate[wasm_module_import.module][wasm_module_import.name] = IDLE_FUNCTION;
                   // imports_aggregate[wasm_module_import.module][wasm_module_import.name] = () => { MISSED_IMPORT_FUNCTION_LOG(`Missed import function called: module "${ wasm_module_import.module }", function "${ wasm_module_import.name }"`); };
@@ -1202,7 +1218,7 @@ var WasmWrapper = /*#__PURE__*/function () {
             case 12:
               wasm_module_instance = _context4.sent;
               if (debug) {
-                DEBUG_LOG(wasm_module_instance);
+                DEBUG_INFO_PUSH('WASM MODULE INSTANCE:', wasm_module_instance);
               }
 
               // this.instance = wasm_module_instance;
@@ -1219,6 +1235,9 @@ var WasmWrapper = /*#__PURE__*/function () {
               if (!this.memory) {
                 this.memory = exports.memory;
               }
+
+              // setInterval(() => LOG(this.memory.buffer), 1000);
+
               DEBUG_INFO_PUSH("WASM MEMORY: ".concat(this.memory.buffer.byteLength / 65536, " pages (").concat(this.memory.buffer.byteLength, " bytes)"));
               return _context4.abrupt("return", exports);
             case 21:
@@ -1249,9 +1268,6 @@ var WasmWrapper = /*#__PURE__*/function () {
               } : _ref2$memory_params, _ref2$imports = _ref2.imports, imports_custom = _ref2$imports === void 0 ? {
                 env: {}
               } : _ref2$imports, _ref2$stack_pointer = _ref2.stack_pointer, stack_pointer = _ref2$stack_pointer === void 0 ? undefined : _ref2$stack_pointer, _ref2$configureMemory = _ref2.configureMemory, configureMemory = _ref2$configureMemory === void 0 ? true : _ref2$configureMemory, _ref2$forceLocalMemor = _ref2.forceLocalMemory, forceLocalMemory = _ref2$forceLocalMemor === void 0 ? false : _ref2$forceLocalMemor, _ref2$initGlobals = _ref2.initGlobals, initGlobals = _ref2$initGlobals === void 0 ? true : _ref2$initGlobals, _ref2$demangleCxxName = _ref2.demangleCxxNames, demangleCxxNames = _ref2$demangleCxxName === void 0 ? false : _ref2$demangleCxxName, _ref2$debug = _ref2.debug, debug = _ref2$debug === void 0 ? false : _ref2$debug, _ref2$findOptimalMemo = _ref2.findOptimalMemorySize, findOptimalMemorySize = _ref2$findOptimalMemo === void 0 ? true : _ref2$findOptimalMemo;
-              self.__mem = function () {
-                return console.log(_this5.memory);
-              };
               code_type = null; // Code for passing to other WASM instances (e.g. threads).
               this.code = code;
               if (typeof code === 'string') {
@@ -1293,15 +1309,15 @@ var WasmWrapper = /*#__PURE__*/function () {
               // DEBUG_LABEL_LOG();
               imports_lib = Object(_imports__WEBPACK_IMPORTED_MODULE_1__["default"])(this);
               if (!(code_type === __CODE_TYPE_BYTECODE__)) {
-                _context5.next = 20;
+                _context5.next = 19;
                 break;
               }
-              _context5.next = 10;
+              _context5.next = 9;
               return WebAssembly.compile(code);
-            case 10:
+            case 9:
               wasm_module = _context5.sent;
               if (debug) {
-                DEBUG_LOG(wasm_module);
+                DEBUG_INFO_PUSH('WASM MODULE: ', wasm_module);
               }
               wasm_module_imports = WebAssembly.Module.imports(wasm_module); // const wasm_module_exports = WebAssembly.Module.exports(wasm_module);
               this.memory = null;
@@ -1358,7 +1374,7 @@ var WasmWrapper = /*#__PURE__*/function () {
                   DEBUG_INFO_PUSH('WASM MEMORY: EXPORTED');
                 }
               }
-              _context5.next = 17;
+              _context5.next = 16;
               return this.instantiate({
                 wasm_module_imports: wasm_module_imports,
                 imports_lib: imports_lib,
@@ -1366,26 +1382,28 @@ var WasmWrapper = /*#__PURE__*/function () {
                 wasm_module: wasm_module,
                 debug: debug
               });
-            case 17:
+            case 16:
               this.exports = _context5.sent;
-              _context5.next = 41;
+              _context5.next = 40;
               break;
-            case 20:
+            case 19:
               this.memory = null;
               if (!memory) {
-                _context5.next = 25;
+                _context5.next = 24;
                 break;
               }
               this.memory = memory;
-              _context5.next = 37;
+              _context5.next = 36;
               break;
-            case 25:
+            case 24:
               // this.memory = { buffer: new self.ArrayBuffer(size) };
-              allocate = function allocate(size) {
+              allocate = function allocate(size, max_size) {
                 var result = true;
                 try {
                   _this5.memory = {
-                    buffer: new self.ArrayBuffer(size)
+                    buffer: new self.ArrayBuffer(size, {
+                      maxByteLength: max_size
+                    })
                   };
                 } catch (evt) {
                   console.log(evt, size);
@@ -1394,33 +1412,33 @@ var WasmWrapper = /*#__PURE__*/function () {
                 return result;
               };
               if (!findOptimalMemorySize) {
-                _context5.next = 36;
+                _context5.next = 35;
                 break;
               }
               size = memory_params.initial;
-            case 28:
-              if (!allocate(size)) {
-                _context5.next = 31;
+            case 27:
+              if (!allocate(size, memory_params.maximum)) {
+                _context5.next = 30;
                 break;
               }
               console.log(size, 'bytes allocated');
-              return _context5.abrupt("break", 34);
-            case 31:
+              return _context5.abrupt("break", 33);
+            case 30:
               size /= 2;
-              _context5.next = 28;
+              _context5.next = 27;
               break;
-            case 34:
-              _context5.next = 37;
+            case 33:
+              _context5.next = 36;
               break;
+            case 35:
+              allocate(memory_params.initial, memory_params.maximum);
             case 36:
-              allocate(memory_params.initial);
-            case 37:
               // TODO: Find better solution to get import modules used.
               // Now it is hardcoded.
               _wasm_module_imports = [_defineProperty({
                 module: "env"
               }, "module", "wasi_snapshot_preview1")];
-              _context5.next = 40;
+              _context5.next = 39;
               return this.instantiate({
                 wasm_module_imports: _wasm_module_imports,
                 imports_lib: imports_lib,
@@ -1428,9 +1446,9 @@ var WasmWrapper = /*#__PURE__*/function () {
                 code: code,
                 debug: debug
               });
-            case 40:
+            case 39:
               this.exports = _context5.sent;
-            case 41:
+            case 40:
               if (configureMemory) {
                 this.configureMemory();
 
@@ -1446,7 +1464,7 @@ var WasmWrapper = /*#__PURE__*/function () {
               if (initGlobals) {
                 this.globals = this.initGlobals();
                 if (debug) {
-                  DEBUG_LOG(this.globals);
+                  DEBUG_INFO_PUSH('WASM GLOBALS:', this.globals);
                 }
               }
               if (demangleCxxNames) {
@@ -1456,13 +1474,13 @@ var WasmWrapper = /*#__PURE__*/function () {
                   exports_demangled_reduced: exports_demangled_reduced
                 });
                 if (debug) {
-                  DEBUG_LOG(this.exports_demangled);
-                  DEBUG_LOG(this.exports_demangled_reduced);
+                  DEBUG_INFO_PUSH('WASM EXPORTS DEMANGLED', this.exports_demangled);
+                  DEBUG_INFO_PUSH('WASM EXPORTS DEMANGLED', this.exports_demangled_reduced);
                 }
               }
 
               // this.__heap_pointer_initial = this.addr(this.globals.__heap_pointer)[0];
-            case 45:
+            case 44:
             case "end":
               return _context5.stop();
           }
