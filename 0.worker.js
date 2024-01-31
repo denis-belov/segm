@@ -1099,6 +1099,11 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
           value: function free() {
             that.exports.__free(this.byteOffset);
           }
+        }, {
+          key: "__reattach",
+          value: function __reattach() {
+            return new this.constructor(that.memory.buffer, this.byteOffset, this.length);
+          }
 
           // slice (...args) {}
         }]);
@@ -1994,7 +1999,7 @@ var WasmWrapper = /*#__PURE__*/function () {
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(_ref2) {
         var _this5 = this;
-        var code, _ref2$memory, memory, _ref2$memory_params, memory_params, _ref2$imports, imports_custom, _ref2$stack_pointer, stack_pointer, _ref2$configureMemory, configureMemory, _ref2$forceLocalMemor, forceLocalMemory, _ref2$initGlobals, initGlobals, _ref2$demangleCxxName, demangleCxxNames, _ref2$debug, debug, _ref2$findOptimalMemo, findOptimalMemorySize, code_type, code_temp, imports_lib, wasm_module, wasm_module_imports, _wasm_module_imports$, _wasm_module_imports$2, imported_memory, shared_memory_allowed, memory_desc, allocate, size, _wasm_module_imports, _this$demangleCxxName, exports_demangled, exports_demangled_reduced;
+        var code, _ref2$memory, memory, _ref2$memory_params, memory_params, _ref2$imports, imports_custom, _ref2$stack_pointer, stack_pointer, _ref2$configureMemory, configureMemory, _ref2$forceLocalMemor, forceLocalMemory, _ref2$initGlobals, initGlobals, _ref2$demangleCxxName, demangleCxxNames, _ref2$debug, debug, _ref2$findOptimalMemo, findOptimalMemorySize, code_type, code_temp, imports_lib, wasm_module, wasm_module_imports, _wasm_module_imports$, _wasm_module_imports$2, imported_memory, shared_memory_allowed, memory_desc, allocate, _wasm_module_imports, _this$demangleCxxName, exports_demangled, exports_demangled_reduced;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
@@ -2122,61 +2127,54 @@ var WasmWrapper = /*#__PURE__*/function () {
               });
             case 16:
               this.exports = _context5.sent;
-              _context5.next = 40;
+              _context5.next = 25;
               break;
             case 19:
               this.memory = null;
-              if (!memory) {
-                _context5.next = 24;
-                break;
-              }
-              this.memory = memory;
-              _context5.next = 36;
-              break;
-            case 24:
-              // this.memory = { buffer: new self.ArrayBuffer(size) };
-              allocate = function allocate(size, max_size) {
-                var result = true;
-                try {
-                  _this5.memory = {
-                    buffer: new self.ArrayBuffer(size, {
-                      maxByteLength: max_size
-                    })
-                  };
-                } catch (evt) {
-                  console.log(evt, size);
-                  result = false;
+              if (memory) {
+                this.memory = memory;
+              } else {
+                // 1 page == 65536 bytes == 0.0625 mb.
+                // 1 mb == 16 pages.
+                // 1gb == 16384 pages.
+                // this.memory = { buffer: new self.ArrayBuffer(size) };
+                allocate = function allocate(size_pages, max_size_pages) {
+                  var result = true;
+                  try {
+                    _this5.memory = {
+                      buffer: new self.ArrayBuffer(Math.imul(size_pages, 65536), {
+                        maxByteLength: Math.imul(max_size_pages, 65536)
+                      })
+                    };
+                  } catch (evt) {
+                    console.error(evt);
+                    result = false;
+                  }
+                  return result;
+                }; // if (findOptimalMemorySize)
+                // {
+                // 	for (let size = memory_params.initial;; size /= 2)
+                // 	{
+                // 		if (allocate(size, memory_params.maximum))
+                // 		{
+                // 			LOG(size, 'bytes allocated')
+                // 			break;
+                // 		}
+                // 	}
+                // }
+                // else
+                {
+                  allocate(memory_params.initial, memory_params.maximum);
                 }
-                return result;
-              };
-              if (!findOptimalMemorySize) {
-                _context5.next = 35;
-                break;
+                console.log(this.memory.buffer);
               }
-              size = memory_params.initial;
-            case 27:
-              if (!allocate(size, memory_params.maximum)) {
-                _context5.next = 30;
-                break;
-              }
-              console.log(size, 'bytes allocated');
-              return _context5.abrupt("break", 33);
-            case 30:
-              size /= 2;
-              _context5.next = 27;
-              break;
-            case 33:
-              _context5.next = 36;
-              break;
-            case 35:
-              allocate(memory_params.initial, memory_params.maximum);
-            case 36:
+
               // TODO: Find better solution to get import modules used.
               // Now it is hardcoded.
               _wasm_module_imports = [_defineProperty({
                 module: "env"
               }, "module", "wasi_snapshot_preview1")];
-              _context5.next = 39;
+              _context5.next = 24;
               return this.instantiate({
                 wasm_module_imports: _wasm_module_imports,
                 imports_lib: imports_lib,
@@ -2184,9 +2182,9 @@ var WasmWrapper = /*#__PURE__*/function () {
                 code: code,
                 debug: debug
               });
-            case 39:
+            case 24:
               this.exports = _context5.sent;
-            case 40:
+            case 25:
               if (configureMemory) {
                 this.configureMemory();
 
@@ -2218,7 +2216,7 @@ var WasmWrapper = /*#__PURE__*/function () {
               }
 
               // this.__heap_pointer_initial = this.addr(this.globals.__heap_pointer)[0];
-            case 44:
+            case 29:
             case "end":
               return _context5.stop();
           }
