@@ -54,35 +54,35 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   uint8_t: function uint8_t(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    return new this.Uint8Array(this.memory.buffer, addr, length);
+    return new self.Uint8Array(this.memory.buffer, addr, length);
   },
   int8_t: function int8_t(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    return new this.Int8Array(this.memory.buffer, addr, length);
+    return new self.Int8Array(this.memory.buffer, addr, length);
   },
   uint16_t: function uint16_t(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    return new this.Uint16Array(this.memory.buffer, addr, length);
+    return new self.Uint16Array(this.memory.buffer, addr, length);
   },
   int16_t: function int16_t(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    return new this.Int16Array(this.memory.buffer, addr, length);
+    return new self.Int16Array(this.memory.buffer, addr, length);
   },
   uint32_t: function uint32_t(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    return new this.Uint32Array(this.memory.buffer, addr, length);
+    return new self.Uint32Array(this.memory.buffer, addr, length);
   },
   int32_t: function int32_t(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    return new this.Int32Array(this.memory.buffer, addr, length);
+    return new self.Int32Array(this.memory.buffer, addr, length);
   },
   uint64_t: function uint64_t(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    return new this.BigUint64Array(this.memory.buffer, addr, length);
+    return new self.BigUint64Array(this.memory.buffer, addr, length);
   },
   int64_t: function int64_t(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    return new this.BigInt64Array(this.memory.buffer, addr, length);
+    return new self.BigInt64Array(this.memory.buffer, addr, length);
   },
   "float": function float(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
@@ -94,7 +94,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   long_double: function long_double(addr) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    return new this.Uint8Array(this.memory.buffer, addr, length * this.mem.long_double.size);
+    return new self.Uint8Array(this.memory.buffer, addr, length * this.mem.long_double.size);
   },
   addr2: function addr2(name) {
     var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
@@ -110,17 +110,16 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return vend;
       }
     }
+
+    // return this.exports.__strlen(addr);
   },
-  // c_string (addr)
-  // {
-  // 	return this.memory_views.UI8.subarray(addr, addr + this.getCStringLength(addr));
-  // },
   c_string: function c_string(addr) {
     return this["char"](addr, this.getCStringLength(addr));
+    // return this.memory_views.UI8.subarray(addr, addr + this.getCStringLength(addr));
   },
   c_string2: function c_string2(addr) {
-    // return this.constructor.convertUint8ArrayToDomString(this.memory_views.UI8.subarray(addr, addr + this.getCStringLength(addr)));
     return this.constructor.convertUint8ArrayToDomString(this.c_string(addr));
+    // return this.constructor.convertUint8ArrayToDomString(this.memory_views.UI8.subarray(addr, addr + this.getCStringLength(addr)));
   },
   std_string: function std_string(addr) {
     var result = this["char"](this.exports.__getStdStringData(addr), this.exports.__getStdStringSize(addr));
@@ -191,15 +190,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   updateStdVectorData: function updateStdVectorData(addr, type, _data) {
     this.std_vector(addr, type).set(_data);
   },
-  // demangle (name, name_addr)
-  // {
-  // 	this.memory_views.UI8.set(this.constructor.convertDomStringToUint8Array(name), name_addr);
-  // 	const demangled_name =
-  // 		this.constructor.convertUint8ArrayToDomString
-  // 		(this.c_string(this.exports.__demangleCxxName(name_addr)))
-  // 			.replace(/, /g, ',');
-  // 	return demangled_name;
-  // }
   demangleCxxNames: function demangleCxxNames() {
     var _this = this;
     var demangled_name_max_length = 1024;
@@ -208,9 +198,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     var exports_demangled = Object.keys(this.exports).reduce(function (exports_demangled, _name) {
       if (_name.startsWith('_Z')) {
         var name = "".concat(_name, "\0");
-
-        // const demangled_name = this.demangle(name, demangled_name_addr);
-
         _this.memory_views.UI8.set(_this.constructor.convertDomStringToUint8Array(name), demangled_name_addr);
         var demangled_name = _this.constructor.convertUint8ArrayToDomString(_this.c_string(_this.exports.__demangleCxxName(demangled_name_addr))).replace(/, /g, ',');
         if (exports_demangled[demangled_name]) {
@@ -233,6 +220,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       exports_demangled_reduced: exports_demangled_reduced
     };
   },
+  // TODO: rename to "getClass".
   Class: function Class(name) {
     var wasm_wrapper = this;
     var _Class = /*#__PURE__*/_createClass(function _Class(input) {
@@ -690,6 +678,16 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
   }, this.options);
   ['Uint8Array', 'Int8Array', 'Uint16Array', 'Int16Array', 'Uint32Array', 'Int32Array', 'Uint8Array', 'Int8Array', 'BigUint64Array', 'BigInt64Array', 'Float32Array', 'Float64Array'].forEach(function (typed_array_name) {
     if (self[typed_array_name]) {
+      /**
+       * byteOffset is an address in WASM memory.
+       *
+       * Array has to be used carefully, especially on mobile devices.
+       * Undefined behavior may be occured in the following cases:
+       * - Transferring array between workers (for both ArrayBuffer and SharedArrayBuffer).
+       * - Calling slice().
+       * ...
+       */
+
       _this[typed_array_name] = /*#__PURE__*/function (_self$typed_array_nam) {
         _inherits(_class, _self$typed_array_nam);
         var _super = _createSuper(_class);
@@ -699,14 +697,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
           for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
             args[_key] = arguments[_key];
           }
-          // if (args.length !== 1)
-          // {
-          // 	throw new Error('wasm-wrapper typed array must be constructed with only 1 argument.');
-          // }
-
           if (args[0] instanceof self.ArrayBuffer || self.SharedArrayBuffer && args[0] instanceof self.SharedArrayBuffer) {
             if (args[0] === that.memory.buffer) {
               _this2 = _super.call.apply(_super, [this].concat(args));
+              _this2.__allocated = false;
               return _possibleConstructorReturn(_this2);
             }
             throw new Error('wasm-wrapper typed array can not be backed by array buffer other than wasm-wrapper instance memory buffer.');
@@ -715,32 +709,107 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
           if (_typeof(args[0]) === 'object') {
             // length = args[0].length;
             length = args[0].length;
+            if (args[0] instanceof that[typed_array_name] || args[0] instanceof that["".concat(typed_array_name, "2")]) {
+              var byteOffset = args[0].byteOffset;
+              _this2 = _super.call(this, that.memory.buffer, byteOffset, length);
+              _this2.__allocated = false;
+            } else {
+              var _byteOffset = that.exports.__malloc(length * self[typed_array_name].BYTES_PER_ELEMENT);
+              _this2 = _super.call(this, that.memory.buffer, _byteOffset, length);
+              _this2.__allocated = true;
+              _this2.set(args[0]);
+            }
           } else {
             length = args[0];
+            var _byteOffset2 = that.exports.__malloc(length * self[typed_array_name].BYTES_PER_ELEMENT);
+            _this2 = _super.call(this, that.memory.buffer, _byteOffset2, length);
+            _this2.__allocated = true;
           }
-          var byteOffset = that.exports.__malloc(length * self[typed_array_name].BYTES_PER_ELEMENT);
-          _this2 = _super.call(this, that.memory.buffer, byteOffset, length);
-          if (_typeof(args[0]) === 'object') {
-            _this2.set(args[0]);
-          }
-          _this2.addr = byteOffset;
           return _possibleConstructorReturn(_this2);
         }
         _createClass(_class, [{
-          key: "free",
-          value: function free() {
+          key: "__free",
+          value: function __free() {
             that.exports.__free(this.byteOffset);
-          }
-        }, {
-          key: "__reattach",
-          value: function __reattach() {
-            return new this.constructor(that.memory.buffer, this.byteOffset, this.length);
           }
 
           // slice (...args) {}
         }]);
         return _class;
       }(self[typed_array_name]);
+      _this["".concat(typed_array_name, "2")] = /*#__PURE__*/function () {
+        function _class2() {
+          _classCallCheck(this, _class2);
+          var byteOffset = 0;
+          var length = 0;
+          this.__allocated = false;
+          for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            args[_key2] = arguments[_key2];
+          }
+          if (args[0] instanceof self.ArrayBuffer || self.SharedArrayBuffer && args[0] instanceof self.SharedArrayBuffer) {
+            if (args[0] === that.memory.buffer) {
+              byteOffset = args[1] || 0;
+              length = args[2] || that.memory.buffer.byteLength / self[typed_array_name].BYTES_PER_ELEMENT;
+              Object.assign(this, {
+                byteOffset: byteOffset,
+                length: length
+              });
+              return;
+            }
+            throw new Error('wasm-wrapper typed array can not be backed by array buffer other than wasm-wrapper instance memory buffer.');
+          }
+          if (_typeof(args[0]) === 'object') {
+            // if (args[0].buffer === that.memory.buffer)
+            length = args[0].length;
+            if (args[0] instanceof that[typed_array_name] || args[0] instanceof that["".concat(typed_array_name, "2")]) {
+              byteOffset = args[0].byteOffset;
+              Object.assign(this, {
+                byteOffset: byteOffset,
+                length: length
+              });
+            } else {
+              byteOffset = that.exports.__malloc(length * self[typed_array_name].BYTES_PER_ELEMENT);
+              this.__allocated = true;
+              Object.assign(this, {
+                byteOffset: byteOffset,
+                length: length
+              });
+              this.set(args[0]);
+            }
+          } else {
+            length = args[0];
+            byteOffset = that.exports.__malloc(length * self[typed_array_name].BYTES_PER_ELEMENT);
+            this.__allocated = true;
+            Object.assign(this, {
+              byteOffset: byteOffset,
+              length: length
+            });
+          }
+        }
+        _createClass(_class2, [{
+          key: "buffer",
+          get: function get() {
+            return that.memory.buffer;
+          }
+        }, {
+          key: "__free",
+          value: function __free() {
+            that.exports.__free(this.byteOffset);
+          }
+        }, {
+          key: "__getData",
+          value: function __getData() {
+            return new self[typed_array_name](that.memory.buffer, this.byteOffset, this.length);
+          }
+        }]);
+        return _class2;
+      }();
+      ['set', 'slice'].forEach(function (function_name) {
+        _this["".concat(typed_array_name, "2")].prototype[function_name] = function () {
+          var _self$typed_array_nam2;
+          return (_self$typed_array_nam2 = new self[typed_array_name](that.memory.buffer, this.byteOffset, this.length))[function_name].apply(_self$typed_array_nam2, arguments);
+        };
+      });
     }
   });
   {
@@ -813,7 +882,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
       }
       Object.assign(_this.mem[type_name], {
         size: size,
-        typed_array_constructor: _this[typed_array_constructor_name],
+        typed_array_constructor: self[typed_array_constructor_name],
+        typed_array_constructor_wasm: _this[typed_array_constructor_name],
+        typed_array_constructor_wasm2: _this["".concat(typed_array_constructor_name, "2")],
         interp_log: function interp_log(addr) {
           return _this[type_name](addr)[0];
         },
@@ -831,21 +902,27 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
       return _this.addr(addr);
     };
     this.mem.c_string.interp_arg = function (str) {
-      return new _this.mem["char"].typed_array_constructor(_this.constructor.convertDomStringToUint8Array(str));
+      return new _this.mem["char"].typed_array_constructor_wasm(_this.constructor.convertDomStringToUint8Array(str)).byteOffset;
     };
   }
   {
     this.memory_views = {};
-    this.memory_views.UI8 = new this.Uint8Array(this.memory.buffer);
-    // this.memory_views.I8 = new this.Int8Array(this.memory.buffer);
-    // this.memory_views.UI16 = new this.Uint16Array(this.memory.buffer);
-    // this.memory_views.I16 = new this.Int16Array(this.memory.buffer);
-    // this.memory_views.UI32 = new this.Uint32Array(this.memory.buffer);
-    this.memory_views.I32 = new this.Int32Array(this.memory.buffer);
-    // if (this.BigUint64Array) { this.memory_views.UI64 = new this.BigUint64Array(this.memory.buffer); }
-    // if (this.BigInt64Array) { this.memory_views.I64 = new this.BigInt64Array(this.memory.buffer); }
-    // this.memory_views.F32 = new this.Float32Array(this.memory.buffer);
-    // this.memory_views.F64 = new this.Float64Array(this.memory.buffer);
+    this.memory_views.UI8 = new self.Uint8Array(this.memory.buffer);
+    this.memory_views.UI8 = new self.Uint8Array(this.memory.buffer);
+    this.memory_views.I8 = new self.Int8Array(this.memory.buffer);
+    this.memory_views.UI16 = new self.Uint16Array(this.memory.buffer);
+    this.memory_views.I16 = new self.Int16Array(this.memory.buffer);
+    this.memory_views.UI32 = new self.Uint32Array(this.memory.buffer);
+    this.memory_views.I32 = new self.Int32Array(this.memory.buffer);
+    this.memory_views.I32 = new self.Int32Array(this.memory.buffer);
+    if (self.BigUint64Array) {
+      this.memory_views.UI64 = new self.BigUint64Array(this.memory.buffer);
+    }
+    if (self.BigInt64Array) {
+      this.memory_views.I64 = new self.BigInt64Array(this.memory.buffer);
+    }
+    this.memory_views.F32 = new self.Float32Array(this.memory.buffer);
+    this.memory_views.F64 = new self.Float64Array(this.memory.buffer);
   }
 });
 
@@ -980,6 +1057,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+// C++ thread
+
 
 var Thread2 = /*#__PURE__*/function () {
   function Thread2(wasm_wrapper, data) {
@@ -1255,21 +1334,23 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-// https://webassembly.org
-// https://webassembly.github.io/spec
-// https://github.com/WebAssembly
-// https://developer.mozilla.org/en-US/docs/WebAssembly
-// https://wasi.dev
-// https://lld.llvm.org/WebAssembly.html
-// https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-documents.md
-// https://docs.wasmtime.dev/
-
-/* eslint-disable */
-
 /**
+ * https://webassembly.org
+ * https://webassembly.github.io/spec
+ * https://github.com/WebAssembly
+ * https://developer.mozilla.org/en-US/docs/WebAssembly
+ * https://wasi.dev
+ * https://lld.llvm.org/WebAssembly.html
+ * https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-documents.md
+ * https://docs.wasmtime.dev/
+ *
+ *
+ *
  * Using TypedArray.subarray() is preferred
  * when accessing to data
  * to avoid extra memory allocation.
+ *
+ *
  *
  * Strange std::string behavior:
  * if std::string data length <=11, std::string object address is the same with its data;
@@ -1279,8 +1360,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
  *
  *
  *
- * If memory is shared then memory growing is not allowed
- * and maximum memory size is specified at compilation.
+ * If memory is shared then maximum memory size is specified at compilation.
  *
  *
  *
@@ -1290,7 +1370,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
  *
  *
  * TODO: determination capabiity of what wasm memory type is being used.
+ *
+ *
+ *
+ * 1 page == 65536 bytes == 0.0625 mb.
+ * 1 mb == 16 pages.
+ * 1gb == 16384 pages.
+ * 4gb == 65536 pages (maximum memory size for wasm32).
  */
+
+/*
+eslint-disable
+
+max-statements,
+*/
 
 // Webpack arraybuffer-loader is required.
 // import test_simd_wasm_buffer from './test-simd/build/clang-wasm32/output/wasm/test-simd.wasm';
@@ -1308,7 +1401,7 @@ var ERROR_LOG = function ERROR_LOG() {
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
-  return (_console = console).log.apply(_console, ["%c".concat(content), 'background-color: red; padding: 2px;'].concat(_toConsumableArray(args.slice(1))));
+  return (_console = console).log.apply(_console, ["%c".concat(args[0]), 'background-color: red; padding: 2px;'].concat(_toConsumableArray(args.slice(1))));
 };
 var WARN_LOG = function WARN_LOG() {
   var _console2;
@@ -1324,7 +1417,7 @@ var DEBUG_INFO_PUSH = function DEBUG_INFO_PUSH() {
   }
   return DEBUG_INFO.push(args);
 };
-var DEBUG_LABEL_LOG = function DEBUG_LABEL_LOG(thread_id) {
+var DEBUG_INFO_LOG = function DEBUG_INFO_LOG(thread_id) {
   DEBUG_INFO.forEach(function (label) {
     var _console3;
     return (_console3 = console).log.apply(_console3, ["%c".concat(thread_id, ": ").concat(label[0]), 'background-color: #00858A; padding: 2px;'].concat(_toConsumableArray(label.slice(1))));
@@ -1485,8 +1578,6 @@ var WasmWrapper = /*#__PURE__*/function () {
       return ThreadPromiseBunch;
     }();
     this.ThreadPromiseBunch = ThreadPromiseBunch;
-
-    // configureMemory(this, options);
   }
   _createClass(WasmWrapper, [{
     key: "function",
@@ -1610,9 +1701,6 @@ var WasmWrapper = /*#__PURE__*/function () {
               if (!this.memory) {
                 this.memory = exports.memory;
               }
-
-              // setInterval(() => LOG(this.memory.buffer), 1000);
-
               DEBUG_INFO_PUSH("WASM MEMORY: ".concat(this.memory.buffer.byteLength / 65536, " pages (").concat(this.memory.buffer.byteLength, " bytes)"));
               return _context4.abrupt("return", exports);
             case 21:
@@ -1630,19 +1718,18 @@ var WasmWrapper = /*#__PURE__*/function () {
     key: "init",
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(_ref2) {
-        var _this5 = this;
-        var code, _ref2$memory, memory, _ref2$memory_params, memory_params, _ref2$imports, imports_custom, _ref2$stack_pointer, stack_pointer, _ref2$configureMemory, configureMemory, _ref2$forceLocalMemor, forceLocalMemory, _ref2$initGlobals, initGlobals, _ref2$demangleCxxName, demangleCxxNames, _ref2$debug, debug, _ref2$findOptimalMemo, findOptimalMemorySize, code_type, code_temp, imports_lib, wasm_module, wasm_module_imports, _wasm_module_imports$, _wasm_module_imports$2, imported_memory, shared_memory_allowed, memory_desc, allocate, _wasm_module_imports, _this$demangleCxxName, exports_demangled, exports_demangled_reduced;
+        var code, _ref2$memory, memory, _ref2$memory_params, memory_params, _ref2$imports, imports_custom, _ref2$stack_pointer, stack_pointer, _ref2$configureMemory, configureMemory, _ref2$forceLocalMemor, forceLocalMemory, _ref2$initGlobals, initGlobals, _ref2$demangleCxxName, demangleCxxNames, _ref2$debug, debug, code_type, code_temp, imports_lib, wasm_module, wasm_module_imports, _wasm_module_imports$, _wasm_module_imports$2, imported_memory, shared_memory_allowed, memory_desc, _wasm_module_imports, _this$demangleCxxName, exports_demangled, exports_demangled_reduced;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
               code = _ref2.code, _ref2$memory = _ref2.memory, memory = _ref2$memory === void 0 ? null : _ref2$memory, _ref2$memory_params = _ref2.memory_params, memory_params = _ref2$memory_params === void 0 ? {
-                minimum: 2,
-                initial: 2,
+                minimum: 1,
+                initial: 1,
                 maximum: 65536,
                 shared: true
               } : _ref2$memory_params, _ref2$imports = _ref2.imports, imports_custom = _ref2$imports === void 0 ? {
                 env: {}
-              } : _ref2$imports, _ref2$stack_pointer = _ref2.stack_pointer, stack_pointer = _ref2$stack_pointer === void 0 ? undefined : _ref2$stack_pointer, _ref2$configureMemory = _ref2.configureMemory, configureMemory = _ref2$configureMemory === void 0 ? true : _ref2$configureMemory, _ref2$forceLocalMemor = _ref2.forceLocalMemory, forceLocalMemory = _ref2$forceLocalMemor === void 0 ? false : _ref2$forceLocalMemor, _ref2$initGlobals = _ref2.initGlobals, initGlobals = _ref2$initGlobals === void 0 ? true : _ref2$initGlobals, _ref2$demangleCxxName = _ref2.demangleCxxNames, demangleCxxNames = _ref2$demangleCxxName === void 0 ? false : _ref2$demangleCxxName, _ref2$debug = _ref2.debug, debug = _ref2$debug === void 0 ? false : _ref2$debug, _ref2$findOptimalMemo = _ref2.findOptimalMemorySize, findOptimalMemorySize = _ref2$findOptimalMemo === void 0 ? true : _ref2$findOptimalMemo;
+              } : _ref2$imports, _ref2$stack_pointer = _ref2.stack_pointer, stack_pointer = _ref2$stack_pointer === void 0 ? undefined : _ref2$stack_pointer, _ref2$configureMemory = _ref2.configureMemory, configureMemory = _ref2$configureMemory === void 0 ? true : _ref2$configureMemory, _ref2$forceLocalMemor = _ref2.forceLocalMemory, forceLocalMemory = _ref2$forceLocalMemor === void 0 ? false : _ref2$forceLocalMemor, _ref2$initGlobals = _ref2.initGlobals, initGlobals = _ref2$initGlobals === void 0 ? true : _ref2$initGlobals, _ref2$demangleCxxName = _ref2.demangleCxxNames, demangleCxxNames = _ref2$demangleCxxName === void 0 ? false : _ref2$demangleCxxName, _ref2$debug = _ref2.debug, debug = _ref2$debug === void 0 ? false : _ref2$debug;
               code_type = null; // Code for passing to other WASM instances (e.g. threads).
               this.code = code;
               if (typeof code === 'string') {
@@ -1680,8 +1767,6 @@ var WasmWrapper = /*#__PURE__*/function () {
                 DEBUG_INFO_PUSH("WASM CODE: ".concat(code.constructor.name));
               }
               DEBUG_INFO_PUSH("WASM CODE: ".concat(code_type === __CODE_TYPE_BYTECODE__ ? 'BYTECODE' : 'FUNCTION'));
-
-              // DEBUG_LABEL_LOG();
               imports_lib = Object(_imports__WEBPACK_IMPORTED_MODULE_1__["default"])(this);
               if (!(code_type === __CODE_TYPE_BYTECODE__)) {
                 _context5.next = 19;
@@ -1710,20 +1795,23 @@ var WasmWrapper = /*#__PURE__*/function () {
                 shared_memory_allowed = Boolean(self.SharedArrayBuffer) && !forceLocalMemory;
                 if (imported_memory) {
                   DEBUG_INFO_PUSH('WASM MEMORY: IMPORTED');
-                  memory_desc = null; // chrome://flags#enable-experimental-webassembly-features must be enabled
-                  // to access "type" property of "imported_memory". It contains memory
-                  // type and size info produced by the linker (aka defined in WebAssembly module).
-                  // "--import-memory" linker flag specifies whether memory is imported to WebAssembly module.
-                  // "--shared-memory" linker flag specifies whether memory is shared between WebAssembly instances.
-                  // "--max-memory=N" linker flag specifies maximum size of memory for WebAssembly instance.
-                  // The advantqge of this is that we don't need to provide "memory_params"
-                  // to crate the memory object. Memory object is created automatically
-                  // after reading the "imported_memory.type".
+                  memory_desc = null;
                   if (imported_memory.type) {
+                    /**
+                     * chrome://flags#enable-experimental-webassembly-features must be enabled
+                     * to access "type" property of "imported_memory". It contains memory
+                     * type and size info produced by the linker (aka defined in WebAssembly module).
+                     *
+                     * "--import-memory" linker flag specifies whether memory is imported to WebAssembly module.
+                     * "--shared-memory" linker flag specifies whether memory is shared between WebAssembly instances.
+                     * "--max-memory=N" linker flag specifies maximum size of memory for WebAssembly instance.
+                     *
+                     * The advantqge of this is that we don't need to provide "memory_params"
+                     * to crate the memory object. Memory object is created automatically
+                     * after reading the "imported_memory.type".
+                     */
+
                     memory_desc = {
-                      // Is --initial-memory flag ignored if --shared-memory flag is defined?
-                      // UPD: NO.
-                      // initial: imported_memory.type.maximum || imported_memory.type.minimum,
                       initial: imported_memory.type.minimum,
                       maximum: imported_memory.type.maximum || imported_memory.type.minimum,
                       shared: imported_memory.type.shared && shared_memory_allowed
@@ -1762,50 +1850,30 @@ var WasmWrapper = /*#__PURE__*/function () {
               _context5.next = 25;
               break;
             case 19:
+              /**
+               * Initializes WasmWrapper instance with JS code compiled from WASM with wasm2js.
+               * In this case presume WASM instances don't use shared memory and exported memory.
+               * Compiler option "-matomics" must not be used.
+               * Linker option "--shared-memory" must not be used.
+               * wasm2js options "--disable-threads", "--emscripten" must be used.
+               */
+
               this.memory = null;
               if (memory) {
                 this.memory = memory;
               } else {
-                // 1 page == 65536 bytes == 0.0625 mb.
-                // 1 mb == 16 pages.
-                // 1gb == 16384 pages.
-                // this.memory = { buffer: new self.ArrayBuffer(size) };
-                allocate = function allocate(size_pages, max_size_pages) {
-                  var result = true;
-                  try {
-                    _this5.memory = {
-                      buffer: new self.ArrayBuffer(Math.imul(size_pages, 65536), {
-                        maxByteLength: Math.imul(max_size_pages, 65536)
-                      })
-                    };
-                  } catch (evt) {
-                    console.error(evt);
-                    result = false;
-                  }
-                  return result;
-                }; // if (findOptimalMemorySize)
-                // {
-                // 	for (let size = memory_params.initial;; size /= 2)
-                // 	{
-                // 		if (allocate(size, memory_params.maximum))
-                // 		{
-                // 			LOG(size, 'bytes allocated')
-                // 			break;
-                // 		}
-                // 	}
-                // }
-                // else
-                {
-                  allocate(memory_params.initial, memory_params.maximum);
-                }
-                console.log(this.memory.buffer);
+                this.memory = {
+                  buffer: new self.ArrayBuffer(Math.imul(memory_params.initial, memory_params.maximum))
+                };
               }
 
               // TODO: Find better solution to get import modules used.
               // Now it is hardcoded.
-              _wasm_module_imports = [_defineProperty({
-                module: "env"
-              }, "module", "wasi_snapshot_preview1")];
+              _wasm_module_imports = [{
+                module: 'env'
+              }, {
+                module: 'wasi_snapshot_preview1'
+              }];
               _context5.next = 24;
               return this.instantiate({
                 wasm_module_imports: _wasm_module_imports,
@@ -1819,14 +1887,11 @@ var WasmWrapper = /*#__PURE__*/function () {
             case 25:
               if (configureMemory) {
                 this.configureMemory();
-
-                // DEBUG_INFO_PUSH(`WASM MEMORY: ${ this.memory.buffer.byteLength / 65536 } pages (${ this.memory.buffer.byteLength } bytes)`);
               }
-
               if (this.exports.__main) {
                 this.__thread_id = this.exports.__main(stack_pointer);
                 if (debug) {
-                  DEBUG_LABEL_LOG(this.__thread_id);
+                  DEBUG_INFO_LOG(this.__thread_id);
                 }
               }
               if (initGlobals) {
@@ -1842,12 +1907,10 @@ var WasmWrapper = /*#__PURE__*/function () {
                   exports_demangled_reduced: exports_demangled_reduced
                 });
                 if (debug) {
-                  DEBUG_INFO_PUSH('WASM EXPORTS DEMANGLED', this.exports_demangled);
-                  DEBUG_INFO_PUSH('WASM EXPORTS DEMANGLED', this.exports_demangled_reduced);
+                  DEBUG_INFO_PUSH('WASM EXPORTS DEMANGLED: ', this.exports_demangled);
+                  DEBUG_INFO_PUSH('WASM EXPORTS DEMANGLED: ', this.exports_demangled_reduced);
                 }
               }
-
-              // this.__heap_pointer_initial = this.addr(this.globals.__heap_pointer)[0];
             case 29:
             case "end":
               return _context5.stop();
@@ -1858,19 +1921,16 @@ var WasmWrapper = /*#__PURE__*/function () {
         return _init.apply(this, arguments);
       }
       return init;
-    }() // resetHeapPointer ()
-    // {
-    // 	this.exports.__setHeapPointer(this.__heap_pointer_initial);
-    // }
+    }()
   }, {
     key: "initGlobals",
     value: function initGlobals() {
-      var _this6 = this;
+      var _this5 = this;
       var globals = {};
       var prefix_length = '__EXPORT_ADDR__'.length;
       Object.keys(this.exports).forEach(function (export_name) {
         if (export_name.startsWith('__EXPORT_ADDR__')) {
-          globals[export_name.slice(prefix_length)] = _this6.exports[export_name]();
+          globals[export_name.slice(prefix_length)] = _this5.exports[export_name]();
         }
       });
       return globals;
@@ -1899,13 +1959,13 @@ var WasmWrapper = /*#__PURE__*/function () {
     key: "initThreads",
     value: function () {
       var _initThreads = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(thread_count) {
-        var _this7 = this;
+        var _this6 = this;
         var threads;
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
               threads = new Array(thread_count).fill(null).map(function () {
-                return new WasmWrapper.Thread3(_this7);
+                return new WasmWrapper.Thread3(_this6);
               });
               _context6.next = 3;
               return Promise.all(threads.map(function (thread) {
@@ -1933,17 +1993,10 @@ var WasmWrapper = /*#__PURE__*/function () {
     }
   }], [{
     key: "convertUint8ArrayToDomString",
-    value:
-    // static convertUint8ArrayToDomString (uint8_array)
-    // {
-    // 	return WasmWrapper.text_decoder.decode(uint8_array);
-    // }
-
-    // Version for shared buffer backed array.
-    // Decoding views of shared buffer is not allowed.
-    function convertUint8ArrayToDomString(uint8_array) {
-      // return WasmWrapper.text_decoder.decode(uint8_array.slice());
-      return WasmWrapper.text_decoder.decode(new Uint8Array(uint8_array));
+    value: function convertUint8ArrayToDomString(uint8array) {
+      // return WasmWrapper.text_decoder.decode(uint8_array);
+      // return WasmWrapper.text_decoder.decode(uint8array.slice());
+      return WasmWrapper.text_decoder.decode(new self.Uint8Array(uint8array)); // Decoding view of shared buffer is not allowed so need new instance.
     }
   }, {
     key: "convertDomStringToUint8Array",
@@ -1998,10 +2051,14 @@ var WasmWrapper = /*#__PURE__*/function () {
       }
       return testSimd;
     }()
+    /**
+     * memory.atomic.wait can't be called in main worker
+     * so need to make the test in another worker.
+     */
   }, {
-    key: "testAtomic",
-    value: function () {
-      var _testAtomic = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+    key: "testAtomics",
+    value: (function () {
+      var _testAtomics = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
         var result, wasm_buffer, wasm_module, instance;
         return _regeneratorRuntime().wrap(function _callee8$(_context8) {
           while (1) switch (_context8.prev = _context8.next) {
@@ -2036,16 +2093,16 @@ var WasmWrapper = /*#__PURE__*/function () {
           }
         }, _callee8, null, [[1, 14]]);
       }));
-      function testAtomic() {
-        return _testAtomic.apply(this, arguments);
+      function testAtomics() {
+        return _testAtomics.apply(this, arguments);
       }
-      return testAtomic;
-    }()
+      return testAtomics;
+    }())
   }]);
   return WasmWrapper;
 }();
-_defineProperty(WasmWrapper, "text_decoder", new TextDecoder('utf-8'));
-_defineProperty(WasmWrapper, "text_encoder", new TextEncoder());
+_defineProperty(WasmWrapper, "text_decoder", new self.TextDecoder('utf-8'));
+_defineProperty(WasmWrapper, "text_encoder", new self.TextEncoder());
 WasmWrapper.prototype.configureMemory = _memory__WEBPACK_IMPORTED_MODULE_0__["default"];
 Object.assign(WasmWrapper.prototype, _cxx_specific__WEBPACK_IMPORTED_MODULE_2__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (WasmWrapper);
