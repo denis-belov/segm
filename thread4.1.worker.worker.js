@@ -187,6 +187,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+// TODO: new for C++ types (e.g. _new('uint32_t', 16)).
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   // https://en.cppreference.com/w/cpp/language/types
   bool: function bool(addr) {
@@ -971,6 +973,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
  * https://lld.llvm.org/WebAssembly.html
  * https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-documents.md
  * https://docs.wasmtime.dev/
+ * https://v8.dev/
  *
  *
  *

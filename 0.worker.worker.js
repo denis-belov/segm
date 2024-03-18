@@ -1,10 +1,10 @@
 self["webpackChunk"]([0],{
 
-/***/ "../../renderity/wasm-wrapper/src/test-simd/build/clang-wasm32/output/wasm/test-simd.wasm":
-/*!************************************************************************************************************!*\
-  !*** /Users/Denis/reps/renderity/wasm-wrapper/src/test-simd/build/clang-wasm32/output/wasm/test-simd.wasm ***!
-  \************************************************************************************************************/
-/*! exports provided: memory, testSimd */
+/***/ "../../renderity/wasm-wrapper/src/test-atomic/build/test.wasm":
+/*!********************************************************************************!*\
+  !*** /Users/Denis/reps/renderity/wasm-wrapper/src/test-atomic/build/test.wasm ***!
+  \********************************************************************************/
+/*! no exports provided */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
