@@ -1,23 +1,19 @@
 self["webpackChunk"]([0],{
 
-/***/ "../../renderity/wasm-wrapper/src/test-atomic/build/test.wasm":
-/*!********************************************************************************!*\
-  !*** /Users/Denis/reps/renderity/wasm-wrapper/src/test-atomic/build/test.wasm ***!
-  \********************************************************************************/
-/*! no exports provided */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../renderity/wasm-wrapper/src/test-atomic/src/test-atomic.worker.js":
+/*!******************************************************************************************!*\
+  !*** /Users/Denis/reps/renderity/wasm-wrapper/src/test-atomic/src/test-atomic.worker.js ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// Instantiate WebAssembly module
-var wasmExports = __webpack_require__.w[module.i];
-__webpack_require__.r(exports);
-// export exports from WebAssembly module
-for(var name in wasmExports) if(name != "__webpack_init__") exports[name] = wasmExports[name];
-// exec imports from WebAssembly module (for esm order)
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Worker_fn; });
+function Worker_fn() {
+  return new Worker(__webpack_require__.p + "test-atomic.worker.worker.worker.worker.js");
+}
 
-
-// exec wasm module
-wasmExports["__webpack_init__"]()
 
 /***/ })
 

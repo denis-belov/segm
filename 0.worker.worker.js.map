@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"0.worker.worker.js","sourceRoot":""}
+{"version":3,"sources":["webpack:////Users/Denis/reps/renderity/wasm-wrapper/src/test-atomic/src/test-atomic.worker.js"],"names":[],"mappings":";;;;;;;;;;AAAA;AAAA;AAAe;AACf,oBAAoB,qBAAuB;AAC3C","file":"0.worker.worker.js","sourcesContent":["export default function Worker_fn() {\n  return new Worker(__webpack_public_path__ + \"test-atomic.worker.worker.worker.worker.js\");\n}\n"],"sourceRoot":""}
